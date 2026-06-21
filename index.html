@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Любимой</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Crimson+Pro:ital,wght@0,400;1,400&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(180deg, #07000d 0%, #110018 50%, #07000d 100%);
+            color: #f5f5f5;
+            font-family: 'Playfair Display', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Анимация падающих лепестков роз */
+        .petals-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal {
+            position: absolute;
+            color: #c9366e;
+            opacity: 0.18;
+            animation: fall linear infinite;
+            user-select: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.18; }
+            90% { opacity: 0.18; }
+            100% {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Стили секций */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .subtitle-top {
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 20px;
+        }
+
+        .main-name {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 72px;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(201, 54, 110, 0.6), 0 0 40px rgba(201, 54, 110, 0.3);
+            animation: pulse 3s infinite ease-in-out;
+            margin-bottom: 10px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(201, 54, 110, 0.6), 0 0 40px rgba(201, 54, 110, 0.3); }
+            50% { text-shadow: 0 0 35px rgba(201, 54, 110, 0.9), 0 0 60px rgba(201, 54, 110, 0.5); }
+        }
+
+        .and-you {
+            font-size: 24px;
+            color: #c9366e;
+            margin-bottom: 30px;
+        }
+
+        .hero-desc {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            max-width: 500px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Разделители */
+        .divider {
+            color: rgba(201, 54, 110, 0.5);
+            font-size: 24px;
+            margin: 60px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Секция Расстояние */
+        .distance-title {
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+        }
+
+        .distance-number {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 90px;
+            color: #c9366e;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .distance-unit {
+            font-style: italic;
+            margin-bottom: 25px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Галерея воспоминаний */
+        .section-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 32px;
+            margin-bottom: 40px;
+            letter-spacing: 0.1em;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .photo-frame {
+            background: linear-gradient(145deg, #110018 60%, #1e0028);
+            border: 1.5px solid rgba(201, 54, 110, 0.35);
+            box-shadow: 0 0 28px rgba(201, 54, 110, 0.10), inset 0 0 40px rgba(7,0,13,0.7);
+            aspect-ratio: 3/4;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* Готические уголки */
+        .corner {
+            position: absolute;
+            color: rgba(201, 54, 110, 0.6);
+            font-size: 18px;
+            pointer-events: none;
+            user-select: none;
+        }
+        .top-left { top: 5px; left: 5px; }
+        .top-right { top: 5px; right: 5px; }
+        .bottom-left { bottom: 5px; left: 5px; }
+        .bottom-right { bottom: 5px; right: 5px; }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-cover: cover;
+            position: absolute;
+            inset: 0;
+            filter: sepia(0.12) contrast(1.08);
+            z-index: 1;
+        }
+
+        .frame-content {
+            z-index: 2;
+            text-align: center;
+        }
+
+        .frame-icon {
+            font-size: 30px;
+            color: rgba(201, 54, 110, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .frame-label {
+            font-family: 'Crimson Pro', serif;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+        }
+
+        /* Письмо */
+        .letter-box {
+            border: 1.5px solid rgba(201, 54, 110, 0.3);
+            background: rgba(17, 0, 24, 0.6);
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .letter-text {
+            font-family: 'Crimson Pro', serif;
+            font-size: 18px;
+            line-height: 1.8;
+            font-style: italic;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Карточки внизу */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .info-card {
+            background: rgba(17, 0, 24, 0.4);
+            border: 1px solid rgba(201, 54, 110, 0.2);
+            padding: 25px 15px;
+        }
+
+        .card-title {
+            color: #c9366e;
+            font-size: 16px;
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+
+        .card-text {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.5;
+        }
+
+        /* Футер */
+        footer {
+            margin-top: 100px;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(201, 54, 110, 0.15);
+            text-align: center;
+        }
+
+        .footer-name {
+            font-family: 'Cinzel Decorative', serif;
+            color: #c9366e;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .footer-sub {
+            font-size: 12px;
+            font-style: italic;
+            color: rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="petals-container" id="petals"></div>
+
+    <section class="container hero">
+        <div class="subtitle-top">6 500 КМ МЕЖДУ НАМИ</div>
+        <h1 class="main-name">Вита</h1>
+        <div class="and-you">& ты</div>
+        <p class="hero-desc">Расстояние только цифра. То, что между нами - не измеряется километрами. Листай вниз ↓</p>
+    </section>
+
+    <div class="divider">✦ <span>❦</span> ✦</div>
+
+    <section class="container">
+        <div class="distance-title">НАС РАЗДЕЛЯЕТ</div>
+        <div class="distance-number">6 500</div>
+        <div class="distance-unit">километров</div>
+        <p class="hero-desc" style="margin: 0 auto;">Но я никогда не чувствую, что мы далеко друг от друга.</p>
+    </section>
+
+    <div class="divider">✦ <span>❦</span> ✦</div>
+
+    <section class="container">
+        <h2 class="section-title">Моменты с тобой</h2>
+        <div class="gallery">
+            
+            <div class="photo-frame">
+                <span class="corner top-left">✦</span><span class="corner top-right">✦</span>
+                <span class="corner bottom-left">✦</span><span class="corner bottom-right">✦</span>
+                <img src="кыргын.jpg" alt="наша первая встреча" onerror="this.style.display='none';">
+                <div class="frame-content">
+                    <div class="frame-icon">❦</div>
+                    <div class="frame-label">наша первая встреча</div>
+                </div>
+            </div>
+
+            <div class="photo-frame">
+                <span class="corner top-left">✦</span><span class="corner top-right">✦</span>
+                <span class="corner bottom-left">✦</span><span class="corner bottom-right">✦</span>
+                <img src="втакси.jpg" alt="любимый момент" onerror="this.style.display='none';">
+                <div class="frame-content">
+                    <div class="frame-icon">❦</div>
+                    <div class="frame-label">любимый момент</div>
+                </div>
+            </div>
+
+            <div class="photo-frame">
+                <span class="corner top-left">✦</span><span class="corner top-right">✦</span>
+                <span class="corner bottom-left">✦</span><span class="corner bottom-right">✦</span>
+                <img src="смеется.jpg" alt="ты смеёшься" onerror="this.style.display='none';">
+                <div class="frame-content">
+                    <div class="frame-icon">❦</div>
+                    <div class="frame-label">ты смеёшься</div>
+                </div>
+            </div>
+
+            <div class="photo-frame">
+                <span class="corner top-left">✦</span><span class="corner top-right">✦</span>
+                <span class="corner bottom-left">✦</span><span class="corner bottom-right">✦</span>
+                <img src="ПРОСТОТЫ.jpg" alt="просто ты" onerror="this.style.display='none';">
+                <div class="frame-content">
+                    <div class="frame-icon">❦</div>
+                    <div class="frame-label">просто ты</div>
+                </div>
+            </div>
+
+            <div class="photo-frame">
+                <span class="corner top-left">✦</span><span class="corner top-right">✦</span>
+                <span class="corner bottom-left">✦</span><span class="corner bottom-right">✦</span>
+                <img src="вместе.jpg" alt="мы вместе" onerror="this.style.display='none';">
+                <div class="frame-content">
+                    <div class="frame-icon">❦</div>
+                    <div class="frame-label">мы вместе</div>
+                </div>
+            </div>
+
+            <div class="photo-frame">
+                <span class="corner top-left">✦</span><span class="corner top-right">✦</span>
+                <span class="corner bottom-left">✦</span><span class="corner bottom-right">✦</span>
+                <img src="скороснова.jpg" alt="скоро снова" onerror="this.style.display='none';">
+                <div class="frame-content">
+                    <div class="frame-icon">❦</div>
+                    <div class="frame-label">скоро снова</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="divider">✦ <span>❦</span> ✦</div>
+
+    <section class="container">
+        <div class="letter-box">
+            <span class="corner top-left">✦</span><span class="corner top-right">✦</span>
+            <span class="corner bottom-left">✦</span><span class="corner bottom-right">✦</span>
+            <p class="letter-text">
+                Я люблю тебя так, как никого не любил раньше. Ты изменила всё - навсегда. Каждый день без тебя рядом - это просто пауза перед тем, как снова быть вместе. 6 500 км — это много. Но это не останавливает нас. Ничто не остановит. Люблю тебя, кошка
+            </p>
+        </div>
+    </section>
+
+    <section class="container cards-grid">
+        <div class="info-card">
+            <div class="card-title">Ты - моя</div>
+            <div class="card-text">В любой точке мира, в любом часовом поясе - моё сердце принадлежит тебе.</div>
+        </div>
+        <div class="info-card">
+            <div class="card-title">Расстояние - не преграда</div>
+            <div class="card-text">Я выбираю тебя снова и снова.</div>
+        </div>
+        <div class="info-card">
+            <div class="card-title">До встречи</div>
+            <div class="card-text">Считаю дни. Буду ждать столько, сколько нужно. Ты того стоишь.</div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-name">Вита</div>
+        <div class="footer-sub">навсегда моя, несмотря на расстояние ♥</div>
+    </footer>
+
+    <script>
+        const container = document.getElementById('petals');
+        const count = 18;
+        
+        for (let i = 0; i < count; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.innerText = '❦';
+            
+            petal.style.left = `${(i * 5.5 + 3) % 100}%`;
+            petal.style.animationDelay = `${(i * 0.7) % 9}s`;
+            petal.style.animationDuration = `${10 + (i * 1.3) % 8}s`;
+            petal.style.fontSize = `${14 + (i * 7) % 20}px`;
+            
+            container.appendChild(petal);
+        }
+    </script>
+</body>
+</html>
